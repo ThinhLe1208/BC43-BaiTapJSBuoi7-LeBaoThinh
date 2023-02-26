@@ -1,10 +1,10 @@
-// ============ Các function căn bản ====================
+// ============ Các hàm căn bản ====================
 
 /**
  * Hàm kiểm tra điều kiện của dữ liệu nhập vào input
  * @param {*} input DOM element input
- * @param {*} soNguyen true khi chỉ cho phép nhập số nguyên
- * @returns true khi thỏa hết điều kiện và false không thỏa điều kiện
+ * @param {*} type 'soNguyen' chỉ cho phép nhập số nguyên
+ * @returns true khi thỏa hết điều kiện và false không thỏa 1 điều kiện
  */
 function kiemTraInput(input, type) {
     if (input.value === '') {
@@ -42,23 +42,6 @@ function taoMangCacSoDuong(arr) {
 }
 
 /**
- * Hàm trả về số nhỏ nhất trong mảng
- * @param {*} arr mảng các số nguyên
- * @returns số nhỏ nhất trong mảng
- */
-function timSoNhoNhat(arr) {
-    var soNhoNhat = arr[0];
-
-    for (var i = 1; i < arr.length; i++) {
-        if (arr[i] < arr[i - 1]) {
-            soNhoNhat = arr[i];
-        }
-    }
-
-    return soNhoNhat;
-}
-
-/**
  * Hàm trả về mảng các số nguyên dương chẵn trong mảng
  * @param {*} arr mảng các số nguyên
  * @returns mảng các số nguyên dương chẵn
@@ -76,6 +59,23 @@ function taoMangCacSoChan(arr) {
 }
 
 /**
+ * Hàm trả về số nhỏ nhất trong mảng
+ * @param {*} arr mảng các số nguyên
+ * @returns số nhỏ nhất trong mảng
+ */
+function timSoNhoNhat(arr) {
+    var soNhoNhat = arr[0];
+
+    for (var i = 1; i < arr.length; i++) {
+        if (arr[i] < soNhoNhat) {
+            soNhoNhat = arr[i];
+        }
+    }
+
+    return soNhoNhat;
+}
+
+/**
  * Hàn tạo ra mảng mới khác địa chỉ tham chiếu
  * @param {*} arr mảng bất kỳ
  * @returns mảng mới khác địa chỉ tham chiếu
@@ -88,6 +88,25 @@ function saoChepMang(arr) {
     }
 
     return mangTruoc;
+}
+
+/**
+ * Hàm kiểm tra xem có phải là số nguyên tố
+ * @param {*} num sô nguyên
+ * @returns true khi là số nguyên tố và ngược lại
+ */
+function timSoNguyenTo(num) {
+    if (num < 2) {
+        return false;
+    } else {
+        for (var i = 2; i <= Math.sqrt(num); i++) {
+            if ((num % i) === 0) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 // ===================== App ======================
@@ -113,11 +132,16 @@ function themSo() {
 
 themSoNguyenBtn.onclick = themSo;
 
+
 // 1. Tổng số dương
 var tongDuongBtn = document.getElementById('tong-duong-btn');
 var outputTongDuong = document.getElementById('output-tong-duong');
 
 function xuLyTinhTongDuong() {
+    if (mangSo.length === 0) {
+        return alert('Vui lòng thêm ít nhất 1 giá trị vào mảng');
+    }
+
     var mangSoDuong = taoMangCacSoDuong(mangSo);
     var tongSoDuong = 0;
 
@@ -130,11 +154,16 @@ function xuLyTinhTongDuong() {
 
 tongDuongBtn.onclick = xuLyTinhTongDuong;
 
+
 // 2. Đếm số dương
 var demSoDuongBtn = document.getElementById('dem-so-duong-btn');
 var outputDemSoDuong = document.getElementById('output-dem-so-duong');
 
 function xyLyDemSoDuong() {
+    if (mangSo.length === 0) {
+        return alert('Vui lòng thêm ít nhất 1 giá trị vào mảng');
+    }
+
     var demSoDuong = taoMangCacSoDuong(mangSo).length;
 
     outputDemSoDuong.innerText = 'Số dương: ' + demSoDuong;
@@ -142,11 +171,16 @@ function xyLyDemSoDuong() {
 
 demSoDuongBtn.onclick = xyLyDemSoDuong;
 
+
 // 3. Tìm số nhỏ nhất
 var soNhoNhatBtn = document.getElementById('so-nho-nhat-btn');
 var outputSoNhoNhatDuong = document.getElementById('output-so-nho-nhat-duong');
 
 function xuLyTimSoNhoNhat() {
+    if (mangSo.length === 0) {
+        return alert('Vui lòng thêm ít nhất 1 giá trị vào mảng');
+    }
+
     var soNhoNhat = timSoNhoNhat(mangSo);
 
     outputSoNhoNhatDuong.innerText = 'Số nhỏ nhất: ' + soNhoNhat;
@@ -154,32 +188,43 @@ function xuLyTimSoNhoNhat() {
 
 soNhoNhatBtn.onclick = xuLyTimSoNhoNhat;
 
+
 // 4. Tìm số dương nhỏ nhất
 var soDuongNhoNhatBtn = document.getElementById('so-duong-nho-nhat-btn');
 var outputSoDuongNhoNhatDuong = document.getElementById('output-so-duong-nho-nhat-duong');
 
 function xuLyTimSoDuongNhoNhat() {
+    if (mangSo.length === 0) {
+        return alert('Vui lòng thêm ít nhất 1 giá trị vào mảng');
+    }
+
     var mangSoDuong = taoMangCacSoDuong(mangSo);
 
     if (mangSoDuong.length === 0) {
         outputSoDuongNhoNhatDuong.innerText = 'Không có số dương trong mảng';
     } else {
         var soNhoNhat = timSoNhoNhat(mangSoDuong);
+        console.log(soNhoNhat);
         outputSoDuongNhoNhatDuong.innerText = 'Số dương nhỏ nhất: ' + soNhoNhat;
     }
 }
 
 soDuongNhoNhatBtn.onclick = xuLyTimSoDuongNhoNhat;
 
+
 // 5. Tìm số chẵn cuối cùng
 var soChanCuoiBtn = document.getElementById('so-chan-cuoi-btn');
 var outputSoChanCuoi = document.getElementById('output-so-chan-cuoi');
 
 function xuLyTimSoChanCuoi() {
+    if (mangSo.length === 0) {
+        return alert('Vui lòng thêm ít nhất 1 giá trị vào mảng');
+    }
+
     var mangSoChan = taoMangCacSoChan(mangSo);
 
     if (mangSoChan.length === 0) {
-        outputSoChanCuoi.innerText = 'Không có số chẵn trong mảng';
+        outputSoChanCuoi.innerText = -1;
     } else {
         var soChanCuoi = mangSoChan[mangSoChan.length - 1];
         outputSoChanCuoi.innerText = 'Số chẵn cuối cùng : ' + soChanCuoi;
@@ -188,11 +233,16 @@ function xuLyTimSoChanCuoi() {
 
 soChanCuoiBtn.onclick = xuLyTimSoChanCuoi;
 
+
 // 6. Đổi chỗ
 var doiChoBtn = document.getElementById('doi-cho-btn');
 var outputDoiCho = document.getElementById('output-doi-cho');
 
 function xuLyDoiCho() {
+    if (mangSo.length < 2) {
+        return alert('Vui lòng thêm ít nhất 2 giá trị vào mảng');
+    }
+
     var index1 = +document.getElementById('vi-tri-1').value;
     var index2 = +document.getElementById('vi-tri-2').value;
 
@@ -218,11 +268,16 @@ function xuLyDoiCho() {
 
 doiChoBtn.onclick = xuLyDoiCho;
 
+
 // 7. Sắp xếp tăng dần
 var nhoDenLonBtn = document.getElementById('nho-den-lon-btn');
 var outputNhoDenLon = document.getElementById('output-nho-den-lon');
 
 function xuLyNhoDenLon() {
+    if (mangSo.length === 0) {
+        return alert('Vui lòng thêm ít nhất 1 giá trị vào mảng');
+    }
+
     var mangTruoc = saoChepMang(mangSo);
 
     for (var i = 0; i < mangSo.length; i++) {
@@ -242,28 +297,21 @@ function xuLyNhoDenLon() {
 
 nhoDenLonBtn.onclick = xuLyNhoDenLon;
 
+
 // 8. Tìm số nguyên tố đầu tiên
 var soNguyenToBtn = document.getElementById('so-nguyen-to-btn');
 var outputSoNguyenTo = document.getElementById('output-so-nguyen-to');
 
 function xuLySoNguyenTo() {
+    if (mangSo.length === 0) {
+        return alert('Vui lòng thêm ít nhất 1 giá trị vào mảng');
+    }
+
     var soNguyenTo;
 
     for (var i = 0; i < mangSo.length; i++) {
-        var nguyenTo = true;
 
-        if (mangSo[i] < 2) {
-            nguyenTo = false;
-        } else {
-            for (var j = 2; j <= Math.sqrt(mangSo[i]); j++) {
-                if ((mangSo[i] % j) === 0) {
-                    nguyenTo = false;
-                    break;
-                }
-            }
-        }
-
-        if (nguyenTo) {
+        if (timSoNguyenTo(mangSo[i])) {
             soNguyenTo = mangSo[i];
             break;
         }
@@ -272,11 +320,12 @@ function xuLySoNguyenTo() {
     if (soNguyenTo) {
         outputSoNguyenTo.innerText = 'Số nguyên tố đầu tiên: ' + soNguyenTo;
     } else {
-        outputSoNguyenTo.innerText = 'Mảng không có số nguyên tố';
+        outputSoNguyenTo.innerText = -1;
     }
 }
 
 soNguyenToBtn.onclick = xuLySoNguyenTo;
+
 
 // 9. Đếm số nguyên
 var themSoThucBtn = document.getElementById('them-so-thuc-btn');
@@ -301,6 +350,10 @@ function xuLyThemSoThuc() {
 themSoThucBtn.onclick = xuLyThemSoThuc;
 
 function xuLyDemSoNguyen() {
+    if (mangSoThuc.length === 0) {
+        return alert('Vui lòng thêm ít nhất 1 giá trị vào mảng');
+    }
+
     var demSoNguyen = 0;
 
     for (var i = 0; i < mangSoThuc.length; i++) {
@@ -314,11 +367,16 @@ function xuLyDemSoNguyen() {
 
 demSoNguyenBtn.onclick = xuLyDemSoNguyen;
 
+
 // 10. So sánh số lượng số âm và dương
 var soSanhBtn = document.getElementById('so-sanh-btn');
 var outputSoSanh = document.getElementById('output-so-sanh');
 
 function xuLySoSanh() {
+    if (mangSo.length === 0) {
+        return alert('Vui lòng thêm ít nhất 1 giá trị vào mảng');
+    }
+
     var demSoDuong = 0;
     var demSoAm = 0;
 
